@@ -1,0 +1,10 @@
+﻿bundle:
+  name: industrial_energy_streaming
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true

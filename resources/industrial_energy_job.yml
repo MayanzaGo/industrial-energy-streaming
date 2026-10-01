@@ -1,0 +1,27 @@
+﻿resources:
+  jobs:
+    industrial_energy_streaming_pipeline:
+      name: Industrial Energy Streaming Pipeline
+
+      tasks:
+        - task_key: bronze_ingestion
+          notebook_task:
+            notebook_path: ../src/notebooks/Step 4 - Build the Bronze layer.py
+
+        - task_key: silver_transform
+          depends_on:
+            - task_key: bronze_ingestion
+          notebook_task:
+            notebook_path: ../src/notebooks/Step 5 - Silver Layer.py
+
+        - task_key: silver_persistence
+          depends_on:
+            - task_key: silver_transform
+          notebook_task:
+            notebook_path: ../src/notebooks/Step 6 - Write to Silver Layer persistance.py
+
+        - task_key: gold
+          depends_on:
+            - task_key: silver_persistence
+          notebook_task:
+            notebook_path: ../src/notebooks/Step 7 -  Build the Gold Layer.py
