@@ -30,3 +30,23 @@ jobs:
 
       - name: Validate Databricks bundle
         run: databricks bundle validate --target dev
+
+  deploy:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: https://dbc-2ecd7746-fca8.cloud.databricks.com
+      DATABRICKS_CLIENT_ID: 509c958a-e98b-4ad2-80e7-9820e0b94fe3
+      DATABRICKS_AUTH_TYPE: github-oidc
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Deploy Databricks bundle
+        run: databricks bundle deploy --target dev
