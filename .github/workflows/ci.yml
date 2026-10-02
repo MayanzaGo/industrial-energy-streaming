@@ -8,9 +8,18 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOST: https://dbc-2ecd7746-fca8.cloud.databricks.com
+      DATABRICKS_CLIENT_ID: 509c958a-e98b-4ad2-80e7-9820e0b94fe3
+      DATABRICKS_AUTH_TYPE: github-oidc
 
     steps:
       - name: Checkout repository
